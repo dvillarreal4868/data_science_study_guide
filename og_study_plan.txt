@@ -1,0 +1,55 @@
+Phase 1: Mathematical & Statistical Foundations (Days 1–7)
+Much of this will be review given your physics background, but the goal is to reframe what you know through an ML lens.
+Day 1 — Linear Algebra for ML. Matrix multiplication as linear transformation, eigendecomposition, SVD, and PCA as finding directions of maximum variance. Exercise: implement PCA from scratch in NumPy on the Iris dataset, verify against sklearn. Resource: 3Blue1Brown's Essence of Linear Algebra, then Gilbert Strang's MIT lectures.
+Day 2 — Probability, Likelihood, and Bayesian Thinking. MLE as choosing parameters that maximize the probability of observed data. MAP estimation and how adding a prior is mathematically identical to regularization. Exercise: derive the MLE for Gaussian parameters, then add a Gaussian prior on the mean and derive the MAP estimate — observe the shrinkage (this is ridge regression). Resource: Bishop's PRML chapter 2.
+Day 3 — Information Theory Essentials. Entropy as expected surprise (same concept as stat mech). Cross-entropy loss as minimizing KL divergence. Mutual information. Exercise: compute entropy and KL divergence by hand for discrete distributions, show KL is asymmetric and understand the mode-seeking vs. mode-covering distinction. Resource: David MacKay's textbook (free online), chapters 2 and 4.
+Day 4 — Optimization and Gradient Descent. Convex vs. non-convex. SGD as an unbiased gradient estimator whose variance helps escape shallow minima. Momentum as accumulated velocity (physics analogy). Adam as adaptive per-parameter learning rates. Exercise: implement vanilla GD, SGD, and Adam from scratch to minimize the Rosenbrock function, visualize trajectories on a contour plot. Resource: Sebastian Ruder's optimization overview blog post.
+Day 5 — Bias-Variance Tradeoff and Regularization. Derive the bias²-variance-noise decomposition. L2 as Gaussian prior, L1 as Laplace prior. Exercise: fit polynomial regressions of increasing degree to a noisy sine wave, plot the U-shaped train/test error curve, then show L2 regularization recovers good performance at high degree. Resource: ESL chapters 2–3.
+Day 6 — Classification Fundamentals. Logistic regression from first principles — model log-odds as linear, derive sigmoid, show MLE gives cross-entropy loss. Softmax as Boltzmann distribution (same partition function). AUROC, AUPRC, and why accuracy fails for imbalanced clinical data. Exercise: implement logistic regression from scratch, plot the ROC curve by sweeping thresholds. Resource: ESL chapter 4.
+Day 7 — Ensemble Methods and Tree-Based Models. Decision trees, random forests as variance reduction via bagging, gradient boosting as functional gradient descent. These are still often the best models for tabular clinical data. Exercise: train random forest and XGBoost on the UCI Heart Disease dataset, compare to logistic regression, use SHAP for interpretation. Resource: ESL chapters 9–10, the XGBoost paper.
+
+Phase 2: Deep Learning Foundations (Days 8–14)
+Day 8 — Neural Networks from Scratch
+The perceptron, MLPs, universal approximation theorem, ReLU and vanishing gradients. Exercise: implement a 2-layer MLP from scratch in NumPy with hand-coded backprop, train on MNIST. This is the single most valuable exercise in the plan. Resource: Nielsen's free online book, chapters 1–2.
+Day 9 — Backpropagation and Computational Graphs
+Backprop as reverse-mode autodiff. Gradient flow, vanishing/exploding gradients. Exercise: draw a computational graph by hand, compute forward/backward passes manually, then verify in PyTorch against tensor.grad. Resource: Stanford CS231n backprop notes.
+Day 10 — Training Deep Networks in Practice
+Xavier/He initialization (preserving variance across layers). Batch norm, learning rate schedules, dropout, early stopping. Exercise: port your MNIST MLP to PyTorch and systematically ablate — remove batch norm, break initialization, use a huge learning rate. Document the failure modes. Resource: Goodfellow et al. chapters 7–8.
+Day 11 — Convolutional Neural Networks
+Convolution as translation-equivariant feature extraction. ResNet and skip connections. Exercise: build a CNN for CIFAR-10, then fine-tune a pretrained ResNet, compare. Visualize first-layer filters. Resource: CS231n CNN notes, the ResNet paper.
+Day 12 — Transfer Learning and Feature Extraction
+Why ImageNet features transfer to medical imaging. Fine-tuning strategies. Exercise: take a pretrained ResNet and fine-tune on PneumoniaMNIST or ChestX-ray8. Compare training from scratch vs. frozen features vs. full fine-tuning. Resource: Yosinski et al. "How transferable are features in deep networks?" (2014).
+Day 13 — Medical Image Segmentation (U-Net)
+Encoder-decoder with skip connections. Dice loss for class imbalance. Medical-specific augmentation. Exercise: implement U-Net for a lung segmentation task (LUNA16 or similar). Resource: the original U-Net paper — short and clear.
+Day 14 — Evaluation and Uncertainty in Medical AI
+Calibration curves, temperature scaling. Epistemic vs. aleatoric uncertainty. MC dropout. Exercise: plot calibration for your Day 12 model before/after temperature scaling, implement MC dropout (50 forward passes) for uncertainty estimation. Resource: Guo et al. "On Calibration of Modern Neural Networks" (2017).
+
+Phase 3: NLP and Language Models (Days 15–21)
+Day 15 — Word Embeddings
+Word2Vec, distributional hypothesis, negative sampling. Exercise: train Word2Vec on a corpus, explore the embedding space with nearest neighbors and t-SNE. Resource: Mikolov et al.; Jay Alammar's "Illustrated Word2Vec."
+Day 16 — RNNs and LSTMs
+RNNs as networks with memory. Derive why gradients vanish with sequence length. LSTMs: gating as controlling information flow (cell state as information highway, analogous to ResNet skip connections). Exercise: implement RNN and LSTM for text classification, observe the difference on long sequences. Resource: Colah's "Understanding LSTM Networks."
+Day 17 — Transformer Deep Dive
+You've seen the attention equation — now build the full picture. Multi-head attention, positional encodings, the residual stream view (each layer makes additive updates). Feed-forward layers as the "memory" storing facts. Exercise: implement a transformer encoder block from scratch in PyTorch, visualize attention patterns. Resource: "Attention Is All You Need"; Jay Alammar's "Illustrated Transformer."
+Day 18 — BERT and Masked Language Modeling
+Masked LM pretraining, fine-tuning with [CLS] token, BPE tokenization. Clinical variants: ClinicalBERT, BioBERT, PubMedBERT. Exercise: fine-tune ClinicalBERT on a clinical NLP task using HuggingFace. Resource: BERT paper; HuggingFace free course.
+Day 19 — Autoregressive LMs (GPT-style)
+Causal attention masking, scaling laws, in-context learning, temperature/top-k/top-p sampling. Exercise: use a GPT-style model for few-shot clinical information extraction from notes. Compare zero-shot vs. few-shot. Resource: GPT-3 paper (methodology sections).
+Day 20 — Clinical NLP Specifics
+Abbreviations, negation detection, temporal reasoning, medical ontologies (UMLS, SNOMED, ICD). Exercise: build an extraction pipeline with medspaCy, then compare to an LLM-based approach. Resource: medspaCy documentation.
+Day 21 — RAG and Prompt Engineering
+Retrieval-augmented generation, vector databases, chunking strategies, grounding and hallucination reduction. Exercise: build a simple RAG system over clinical guidelines, evaluate answer faithfulness. Resource: Lewis et al. (2020); Anthropic's prompting docs.
+
+Phase 4: Multimodal Learning (Days 22–26)
+This is where everything converges on your lab's work.
+Day 22 — Contrastive Learning and CLIP. SimCLR, InfoNCE loss, CLIP's shared embedding space. Exercise: use pretrained CLIP for zero-shot classification on chest X-rays with text descriptions of pathologies.
+Day 23 — Vision Transformers. ViT as patches-as-tokens. Tradeoffs vs. CNNs (less inductive bias, needs more data, scales better). Exercise: fine-tune ViT on medical imaging, compare to your Day 12 ResNet, visualize attention maps.
+Day 24 — Multimodal Fusion Architectures. Early fusion, late fusion, cross-attention fusion. When to use each. Exercise: build a classifier that takes both an image and tabular clinical features, try late fusion and cross-attention, compare to unimodal baselines.
+Day 25 — LLMs for EHR Extraction. Prompt-based extraction, fine-tuning, hybrid pipelines, output validation against medical ontologies. Exercise: design and test an extraction pipeline that pulls structured fields from clinical notes, with a validation layer. Measure precision/recall.
+Day 26 — End-to-End Multimodal Clinical Prediction. Combine lung imaging + clinical text + structured data. Handle missing modalities. Deployment considerations: FDA, explainability, prospective validation. Exercise: prototype a full pipeline for a lung-related diagnostic task, even with small/synthetic data.
+
+Phase 5: Research Practices (Days 27–30)
+Day 27 — Experiment Tracking. wandb/MLflow, reproducibility, Docker, Hydra configs. Exercise: re-run an earlier experiment with full wandb tracking and a hyperparameter sweep.
+Day 28 — Clinical Data Engineering. FHIR, HL7, DICOM. Handling missing values, temporal alignment, de-identification. Critical: never split patients across train/test, use temporal splits. Exercise: build a preprocessing pipeline on MIMIC or synthetic data.
+Day 29 — Interpretability. SHAP, LIME, Grad-CAM, attention visualization. What clinicians actually need to trust a model. Exercise: apply Grad-CAM to your imaging model and SHAP to your tabular model, show results to your PI.
+Day 30 — Reading Papers. Abstract → figures → conclusion → methods. Key venues (NeurIPS, MICCAI, ML4H, Nature Medicine). Exercise: read 3 papers relevant to your lab, write a summary and critical analysis for each.
